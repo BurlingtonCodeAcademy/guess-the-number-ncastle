@@ -60,14 +60,22 @@ async function guessingGame() {
       console.log(`I can't tell what you're telling me!`);
       highOrLow = await ask(`Is it higher (H), or lower (L)? `);
     }
-
-    // if 
     
     // update currLow or currHigh based on highOrLow
     if (highOrLow.toUpperCase() == "H") {
-      currLow = currGuess + 1; // since it is higher, add 1
+      if (currGuess == currHigh) {
+        console.log(`It can't be higher than ${currGuess}, earlier you said it was lower than ${currHigh+1}!`);
+        guessCount--;   // this adjusts for bad response
+      } else {
+        currLow = currGuess + 1; // since it is higher, add 1
+      }
     } else {
-      currHigh = currGuess - 1; // since lower, subtract 1
+      if (currGuess == currLow) {
+        console.log(`It can't be lower than ${currGuess} if you said it was higher than ${currLow-1}`);
+        guessCount--;   // this adjusts for bad user response
+      } else {
+        currHigh = currGuess - 1; // since lower, subtract 1
+      }
     }
     
     // recalculate guess, increment guessCount
