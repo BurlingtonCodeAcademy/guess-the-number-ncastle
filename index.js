@@ -22,7 +22,6 @@ function ask(questionText) {
 
 /****  FUNCTIONS  ****/
 
-
 // function holding the game logic
 async function guessingGame() {
   // variables/constants
@@ -42,7 +41,8 @@ async function guessingGame() {
   I will try to guess it.`);
   
   // get a random number for the computer's guess with Math.random()
-  currGuess = randomInteger(currLow, currHigh);
+  //currGuess = randomInteger(currLow, currHigh);
+  currGuess = findMid(currLow, currHigh);
   guessCount++; //increment guessCount
   
   // ask if the computer guess is the player's number
@@ -60,6 +60,8 @@ async function guessingGame() {
       console.log(`I can't tell what you're telling me!`);
       highOrLow = await ask(`Is it higher (H), or lower (L)? `);
     }
+
+    // if 
     
     // update currLow or currHigh based on highOrLow
     if (highOrLow.toUpperCase() == "H") {
@@ -69,7 +71,9 @@ async function guessingGame() {
     }
     
     // recalculate guess, increment guessCount
-    currGuess = randomInteger(currLow, currHigh);
+    // currGuess = randomInteger(currLow, currHigh);
+    currGuess = findMid(currLow, currHigh);
+
     guessCount++;
     
     // ask player about currGuess
@@ -85,6 +89,13 @@ async function guessingGame() {
 }
 
 // helper functions
+
+function findMid(low, high) {
+  if (high > low)
+    return Math.floor((high + low) / 2);
+  else
+    return high;
+}
 
 // function to get a random integer in a range from min to max (inclusive)
 function randomInteger(min, max) {
