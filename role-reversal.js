@@ -3,7 +3,7 @@
  *    Guessing game in which the roles are reversed and
  *    the computer picks a number and the user guesses.
  *  Author: Nick Castle
- *  Start Date: 06/05/2019
+ *  Start Date: 06/07/2019
  */
 
 // boilerplate code for readline library

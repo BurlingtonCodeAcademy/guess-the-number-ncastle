@@ -46,7 +46,7 @@ async function guessingGame() {
   guessCount++; //increment guessCount
   
   // ask if the computer guess is the player's number
-  yesOrNo = await ask(`Is it... ${currGuess}? `);
+  yesOrNo = await ask(`Is it... ${currGuess}? (y or n) `);
   
   // validate user response
   yesOrNo = await validateInput(yesOrNo, currGuess);
@@ -85,7 +85,7 @@ async function guessingGame() {
     guessCount++;
     
     // ask player about currGuess
-    yesOrNo = await validateInput(await ask(`Is it... ${currGuess}? `), currGuess);
+    yesOrNo = await validateInput(await ask(`Is it... ${currGuess}? (y or n) `), currGuess);
     
   }
 
@@ -114,7 +114,7 @@ function randomInteger(min, max) {
 // error checking for user input, don't allow anything but N or Y
 async function validateInput(yesOrNo, currGuess) {
   while (yesOrNo.toUpperCase() !== "N" && yesOrNo.toUpperCase() !== "Y") {
-    console.log(`That's not an answer! Tell me Y or N`);
+    console.log(`That's not an answer! Tell me Y or N `);
     yesOrNo = await ask(`Is it... ${currGuess}? `);
   }
   return yesOrNo;
