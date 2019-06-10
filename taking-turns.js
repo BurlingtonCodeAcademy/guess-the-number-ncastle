@@ -9,10 +9,7 @@
 
 // boilerplate code for readline library
 const readline = require("readline");
-const readlineInterface = readline.createInterface(
-  process.stdin,
-  process.stdout
-);
+const readlineInterface = readline.createInterface(process.stdin, process.stdout);
 
 function ask(questionText) {
   return new Promise((resolve, reject) => {
@@ -28,7 +25,7 @@ function ask(questionText) {
 async function computerGuesses() {
   // variables/constants
   let MAX = process.argv[2] || 100;    // get max number from argv
-  let MIN = 1;
+  let MIN = 0;
   let currHigh = MAX;
   let currLow = MIN;
   let guessCount = 0;
@@ -38,7 +35,7 @@ async function computerGuesses() {
   
   
   // console.log introductory message
-  console.log(`Please think of a number between 1 and ${MAX} (inclusive).
+  console.log(`Please think of a number between ${MIN} and ${MAX} (inclusive).
   I will try to guess it.`);
   
   // get a random number for the computer's guess with Math.random()
@@ -58,7 +55,7 @@ async function computerGuesses() {
     highOrLow = await ask(`Is it higher (H), or lower (L)? `);
     
     while (highOrLow.toUpperCase() !== "H" && highOrLow.toUpperCase() !== "L") {
-      console.log(`I can't tell what you're telling me!`);
+      console.log(`I don't understand what you're telling me!`);
       highOrLow = await ask(`Is it higher (H), or lower (L)? `);
     }
     
@@ -70,6 +67,7 @@ async function computerGuesses() {
       } else {
         currLow = currGuess + 1; // since it is higher, add 1
       }
+    // else highOrLow == "L"
     } else {
       if (currGuess == currLow) {
         console.log(`It can't be lower than ${currGuess} if you said it was higher than ${currLow-1}`);
@@ -93,13 +91,10 @@ async function computerGuesses() {
   console.log(`Your number was ${currGuess}!`);
   console.log(`I guessed it in ${guessCount} times!`);
     
-    // exit the game
+  // exit the game
   //process.exit();
 }
 
-
-//start computer guessing
-// computerGuesses();
 
 // function containing the game logic for the user guessing
 async function userGuesses() {
@@ -119,7 +114,6 @@ async function userGuesses() {
 
   // get random number for computer
   compNum = randomInteger(MIN, MAX);
-  console.log(`Computer Num: ${compNum}`);
 
   // main while loop
   // while number is not found, user makes a guess
@@ -129,8 +123,6 @@ async function userGuesses() {
     // parseInt from user input to get a number instead of a string
     userGuess = parseInt(await ask(`Make a guess! `));
     numGuesses++;   // increment number of guesses
-    console.log(`user guess: ${userGuess} ${typeof userGuess}`);
-
 
     // make sure user guesses a number
     while (typeof(userGuess) !== 'number') {
@@ -169,10 +161,25 @@ async function userGuesses() {
   //process.exit();
 }
 
-// call userGuesses() to start user guessing
-// userGuesses();
-
-
+// main game loop
+async function main() {
+  let keepGoing = true;
+  while (keepGoing) {
+    console.log(`computer turn to guess`);
+    await computerGuesses();
+    if ((await ask(`Keep going? `)).includes('n')) {
+      keepGoing = false;
+      break;
+    }
+    console.log(`user turn to guess`);
+    await userGuesses();
+    if ((await ask(`Keep going? `)).includes('n')) {
+      keepGoing = false;
+      break;
+    }
+  }
+  process.exit();
+}
 
 // helper functions
 
@@ -197,26 +204,6 @@ async function validateInput(yesOrNo, currGuess) {
     yesOrNo = await ask(`Is it... ${currGuess}? `);
   }
   return yesOrNo;
-}
-
-// main game loop
-async function main() {
-  let keepGoing = true;
-  while (keepGoing) {
-    console.log(`computer turn to guess`);
-    await computerGuesses();
-    if ((await ask(`Keep going?`)).includes('n')) {
-      keepGoing = false;
-      break;
-    }
-    console.log(`user turn to guess`);
-    await userGuesses();
-    if ((await ask(`Keep going?`)).includes('n')) {
-      keepGoing = false;
-      break;
-    }
-  }
-  process.exit();
 }
 
 main();
