@@ -24,8 +24,8 @@ function ask(questionText) {
 // function holding the game logic for the computer guessing
 async function computerGuesses() {
   // variables/constants
-  let MAX = process.argv[2] || 100;    // get max number from argv
-  let MIN = 0;
+  const MAX = process.argv[2] || 100;    // get max number from argv
+  const MIN = 0;
   let currHigh = MAX;
   let currLow = MIN;
   let guessCount = 0;
@@ -39,7 +39,6 @@ async function computerGuesses() {
   I will try to guess it.`);
   
   // get a random number for the computer's guess with Math.random()
-  //currGuess = randomInteger(currLow, currHigh);
   currGuess = findMid(currLow, currHigh);
   guessCount++; //increment guessCount
   
@@ -50,7 +49,7 @@ async function computerGuesses() {
   yesOrNo = await validateInput(yesOrNo, currGuess);
 
   // need to loop through if statement so long as yesOrNo == 'N'
-  while (yesOrNo.toUpperCase() == "N") {
+  while (yesOrNo.toUpperCase() === "N") {
     // if player says No (N) guess is not right, ask if it is higher or lower
     highOrLow = await ask(`Is it higher (H), or lower (L)? `);
     
@@ -60,8 +59,8 @@ async function computerGuesses() {
     }
     
     // update currLow or currHigh based on highOrLow
-    if (highOrLow.toUpperCase() == "H") {
-      if (currGuess == currHigh) {
+    if (highOrLow.toUpperCase() === "H") {
+      if (currGuess === currHigh) {
         console.log(`It can't be higher than ${currGuess}, earlier you said it was lower than ${currHigh+1}!`);
         guessCount--;   // this adjusts for bad response
       } else {
@@ -69,7 +68,7 @@ async function computerGuesses() {
       }
     // else highOrLow == "L"
     } else {
-      if (currGuess == currLow) {
+      if (currGuess === currLow) {
         console.log(`It can't be lower than ${currGuess} if you said it was higher than ${currLow-1}`);
         guessCount--;   // this adjusts for bad user response
       } else {
@@ -78,9 +77,7 @@ async function computerGuesses() {
     }
     
     // recalculate guess, increment guessCount
-    // currGuess = randomInteger(currLow, currHigh);
     currGuess = findMid(currLow, currHigh);
-
     guessCount++;
     
     // ask player about currGuess
@@ -90,17 +87,15 @@ async function computerGuesses() {
 
   console.log(`Your number was ${currGuess}!`);
   console.log(`I guessed it in ${guessCount} times!`);
-    
-  // exit the game
-  //process.exit();
+
 }
 
 
 // function containing the game logic for the user guessing
 async function userGuesses() {
   // variables & constants
-  let MAX = process.argv[2] || 100;    // get max number from argv
-  let MIN = 0;
+  const MAX = process.argv[2] || 100;    // get max number from argv
+  const MIN = 0;
   let currHigh = MAX;
   let currLow = MIN;
   let userGuess;
@@ -138,7 +133,7 @@ async function userGuesses() {
     }
 
     // if user guesses number correctly
-    if (userGuess == compNum) {
+    if (userGuess === compNum) {
       found = true;
       console.log(`You guessed it in ${numGuesses} guesses!`);
     } else if (userGuess > compNum) {   // if userGuess is greater than the computer's number
@@ -155,10 +150,7 @@ async function userGuesses() {
       console.log("That's not a number!");
       numGuesses--;   // decrement number of guesses to account for bad input
     }
-    
   }
-
-  //process.exit();
 }
 
 // main game loop
